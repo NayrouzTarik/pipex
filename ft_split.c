@@ -6,11 +6,11 @@
 /*   By: ntarik <ntarik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:07:36 by ntarik            #+#    #+#             */
-/*   Updated: 2024/05/27 15:40:20 by ntarik           ###   ########.fr       */
+/*   Updated: 2024/05/31 18:26:25 by ntarik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "pipex.h"
+#include "pipex.h"
 
 static int	counter(const char *str, char sep)
 {

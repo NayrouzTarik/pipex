@@ -6,7 +6,7 @@
 /*   By: ntarik <ntarik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 18:06:59 by ntarik            #+#    #+#             */
-/*   Updated: 2024/05/27 15:37:57 by ntarik           ###   ########.fr       */
+/*   Updated: 2024/05/31 19:04:50 by ntarik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ char	*ft_strdup(const char *s1)
 		return (NULL);
 	else
 	{
-		while (s1[i]) 
+		while (s1[i])
 		{
 			s2[i] = s1[i];
 			i++;
@@ -96,7 +96,7 @@ void	*ft_memset(void *ptr, int x, size_t n)
 	unsigned char	*dest;
 
 	dest = (unsigned char *)ptr;
-	i = 0; 
+	i = 0;
 	while (i < n)
 	{
 		dest[i] = x;
