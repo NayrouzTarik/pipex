@@ -6,40 +6,54 @@
 /*   By: ntarik <ntarik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 15:30:06 by ntarik            #+#    #+#             */
-/*   Updated: 2024/05/31 19:01:21 by ntarik           ###   ########.fr       */
+/*   Updated: 2024/06/04 19:43:10 by ntarik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
+
+void free2d(char **str)
+{
+	int i;
+
+	i = 0;
+	while (str[i])
+	{
+		free(str[i]);
+		i++;
+	}
+	free(str);
+}
+
 int	pipe_it(int *fd)
 {
 	if (pipe(fd) == -1)
-	{
-		write(2, "Pipe failed\n", 12);
-		exit(1);
-	}
+		ft_error("Pipe failed\n");
 	return (*fd);
 }
 
 char	**is_cmd_composed(char *av)
 {
 	char	**cmd;
+	char **temp;
 
+	temp = NULL;
 	cmd = (char **)malloc(2 * sizeof(char *));
 	if (cmd == NULL)
 		return (NULL);
-	if (strchr(av, ' ') != NULL) //ft_strchr to change mn bead
+	if (ft_strchr(av, ' ') != NULL)
 	{
-		cmd = ft_split(av, ' ');
-		return (cmd);
+		temp = ft_split(av, ' ');
+		free(cmd); 
+		return (temp);
 	}
 	cmd[0] = av;
 	cmd[1] = NULL;
 	return (cmd);
 }
 
-int	is_executable_1(int ac, char *av, char **envp)
+char	*is_executable(char *av, char **envp, char** PATH)
 {
 	int		i;
 	char	**cmd;
@@ -47,20 +61,34 @@ int	is_executable_1(int ac, char *av, char **envp)
 	char	*final;
 	char	*final_final;
 
-	(void) ac;
 	i = 0;
-	g_my_path = find_path(envp);
-	while (g_my_path[i])
+	PATH = find_path(envp);
+	if (!PATH)
+	{
+		perror("Error: PATH not found\n");
+		return NULL;//alocating PATH
+	}
+	if (with_path(av) == 0)
 	{
 		cmd = is_cmd_composed(av);
-		cmd_path = g_my_path[i];
-		final = ft_strjoin(cmd_path, "/");
-		final_final = ft_strjoin(final, cmd[0]);
-		if (access(final_final, X_OK) != -1)
-			execve(final_final, cmd, envp);
-		i++;
+		while (PATH[i])
+		{
+			cmd_path = PATH[i];
+			final = ft_strjoin(cmd_path, "/");
+			final_final = ft_strjoin(final, cmd[0]);
+			if (access(final_final, X_OK) != -1)
+			{
+				free2d(cmd);
+				free(final);
+				return final_final;
+			}
+			i++;
+			free(cmd_path);
+			free(final);
+			free(final_final);
+		}
 	}
-	return (0);
+	return (command_not_found(av), NULL);
 }
 
 int	check_args(int ac, char **av)
@@ -68,7 +96,7 @@ int	check_args(int ac, char **av)
 	if (ac != 5)
 	{
 		write(2, "Error: Wrong number of arguments\n", 33);
-		return (-1);
+		exit(1);
 	}
 	else
 	{
@@ -80,36 +108,4 @@ int	check_args(int ac, char **av)
 		}
 	}
 	return (1);
-}
-
-int	main(int ac, char **av, char **env)
-{
-	int		a;
-	int		b;
-	int		fd[2];
-	pid_t	pid;
-
-	if (check_args(ac, av) != -1)
-	{
-		a = check_my_in_files(av);
-		b = check_my_out_files(ac, av);
-		pipe_it(fd);
-		pid = fork();
-		if (pid > 0)
-		{
-			dup2(b, STDOUT_FILENO);
-			dup2(fd[0], STDIN_FILENO);
-			close(fd[1]);
-			waitpid(-1, &g_status, 0);
-			is_executable_1(fd[0], av[3], env);
-		}
-		else if (pid == 0)
-		{
-			dup2(a, STDIN_FILENO);
-			dup2(fd[1], STDOUT_FILENO);
-			close(fd[0]);
-			is_executable_1(fd[1], av[2], env);
-		}
-		exit(1);
-	}
 }

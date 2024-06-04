@@ -6,7 +6,7 @@
 #    By: ntarik <ntarik@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/27 15:37:25 by ntarik            #+#    #+#              #
-#    Updated: 2024/06/02 15:59:05 by ntarik           ###   ########.fr        #
+#    Updated: 2024/06/04 19:05:11 by ntarik           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,12 +16,17 @@ INC = inc/pipex.h
 
 CC = cc
 
-CFLAGS = -Wall -Wextra -Werror -fsanitize=address
+CFLAGS = -Wall 
 
 SRC = ft_split.c \
 		helper.c \
 		parse.c \
 		init_pipex.c \
+		helper2.c \
+		main.c \
+		ft_error.c \
+		spc_case.c \
+		tes.c
 
 OBJ = $(SRC:.c=.o)
 

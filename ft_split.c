@@ -6,13 +6,13 @@
 /*   By: ntarik <ntarik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:07:36 by ntarik            #+#    #+#             */
-/*   Updated: 2024/05/31 18:26:25 by ntarik           ###   ########.fr       */
+/*   Updated: 2024/06/03 19:29:53 by ntarik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-static int	counter(const char *str, char sep)
+int	counter(const char *str, char sep)
 {
 	int	counter;
 	int	flag;
