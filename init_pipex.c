@@ -6,16 +6,15 @@
 /*   By: ntarik <ntarik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 15:30:06 by ntarik            #+#    #+#             */
-/*   Updated: 2024/06/04 19:43:10 by ntarik           ###   ########.fr       */
+/*   Updated: 2024/06/09 20:32:47 by ntarik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-
-void free2d(char **str)
+void	free2d(char **str)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (str[i])
@@ -36,7 +35,7 @@ int	pipe_it(int *fd)
 char	**is_cmd_composed(char *av)
 {
 	char	**cmd;
-	char **temp;
+	char	**temp;
 
 	temp = NULL;
 	cmd = (char **)malloc(2 * sizeof(char *));
@@ -45,7 +44,7 @@ char	**is_cmd_composed(char *av)
 	if (ft_strchr(av, ' ') != NULL)
 	{
 		temp = ft_split(av, ' ');
-		free(cmd); 
+		free(cmd);
 		return (temp);
 	}
 	cmd[0] = av;
@@ -53,59 +52,45 @@ char	**is_cmd_composed(char *av)
 	return (cmd);
 }
 
-char	*is_executable(char *av, char **envp, char** PATH)
+char	*exec_cmd(char **cmd, char *path)
+{
+	char	*final;
+	char	*final_final;
+
+	final = ft_strjoin(path, "/");
+	final_final = ft_strjoin(final, cmd[0]);
+	if (access(final_final, X_OK) != -1)
+	{
+		free(final);
+		return (final_final);
+	}
+	free(final);
+	free(final_final);
+	return (NULL);
+}
+
+char	*is_executable(char *av, char **envp, char **PATH)
 {
 	int		i;
 	char	**cmd;
-	char	*cmd_path;
-	char	*final;
-	char	*final_final;
+	char	*ret;
 
 	i = 0;
 	PATH = find_path(envp);
 	if (!PATH)
-	{
-		perror("Error: PATH not found\n");
-		return NULL;//alocating PATH
-	}
+		ft_error("Error: PATH is unseted \
+		kill the terminal & rexecute\n");
 	if (with_path(av) == 0)
 	{
 		cmd = is_cmd_composed(av);
 		while (PATH[i])
 		{
-			cmd_path = PATH[i];
-			final = ft_strjoin(cmd_path, "/");
-			final_final = ft_strjoin(final, cmd[0]);
-			if (access(final_final, X_OK) != -1)
-			{
-				free2d(cmd);
-				free(final);
-				return final_final;
-			}
+			ret = exec_cmd(cmd, PATH[i]);
+			if (ret)
+				return (ret);
 			i++;
-			free(cmd_path);
-			free(final);
-			free(final_final);
+			free(ret);
 		}
 	}
 	return (command_not_found(av), NULL);
-}
-
-int	check_args(int ac, char **av)
-{
-	if (ac != 5)
-	{
-		write(2, "Error: Wrong number of arguments\n", 33);
-		exit(1);
-	}
-	else
-	{
-		if (av[0] == NULL || av[1] == NULL || av[2] == NULL
-			|| av[3] == NULL || av[4] == NULL)
-		{
-			write(2, "Error: Wrong arguments\n", 24);
-			return (-1);
-		}
-	}
-	return (1);
 }

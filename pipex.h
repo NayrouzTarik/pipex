@@ -6,7 +6,7 @@
 /*   By: ntarik <ntarik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 20:00:43 by ntarik            #+#    #+#             */
-/*   Updated: 2024/06/04 18:56:08 by ntarik           ###   ########.fr       */
+/*   Updated: 2024/06/09 20:32:21 by ntarik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@
 # include <fcntl.h>
 # include <sys/wait.h>
 # include <string.h>
-
 
 //parse functions :
 char	**find_path(char **env);
@@ -34,7 +33,7 @@ void	ft_error(char *str);
 void	command_not_found(char *str);
 //execute functions :
 int		pipe_it(int *fd);
-char	*is_executable(char *av, char **envp, char **PATH);
+char	*is_executable(char *av, char **envp, char **path);
 void	child_process(int *fd, int b, char **av, char **env);
 //helper functions :
 char	**ft_split(const char *str, char c);
