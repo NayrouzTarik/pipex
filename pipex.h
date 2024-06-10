@@ -6,7 +6,7 @@
 /*   By: ntarik <ntarik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 20:00:43 by ntarik            #+#    #+#             */
-/*   Updated: 2024/06/09 20:32:21 by ntarik           ###   ########.fr       */
+/*   Updated: 2024/06/10 20:53:03 by ntarik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@
 
 //parse functions :
 char	**find_path(char **env);
-int		check_my_in_files(char **av);
-int		check_my_out_files(int ac, char **av);
+void	check_my_in_files(char **av, int *infile);
+void	check_my_out_files(int ac, char **av, int *outfile);
 char	**is_cmd_composed(char *av);
 int		check_args(int ac, char **av);
 //errors functions : 
@@ -52,6 +52,7 @@ char	*ft_strdup(const char *s1);
 void	*ft_calloc(size_t count, size_t size);
 void	ft_bzero( void *dst, size_t n);
 int		counter(const char *str, char c);
+void	free2d(char **str);
 //special case : of command sent with it path
 int		with_path(char *av);
 #endif

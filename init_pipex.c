@@ -6,7 +6,7 @@
 /*   By: ntarik <ntarik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 15:30:06 by ntarik            #+#    #+#             */
-/*   Updated: 2024/06/09 20:32:47 by ntarik           ###   ########.fr       */
+/*   Updated: 2024/06/09 23:40:34 by ntarik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,20 +35,10 @@ int	pipe_it(int *fd)
 char	**is_cmd_composed(char *av)
 {
 	char	**cmd;
-	char	**temp;
 
-	temp = NULL;
-	cmd = (char **)malloc(2 * sizeof(char *));
+	cmd = ft_split(av, ' ');
 	if (cmd == NULL)
 		return (NULL);
-	if (ft_strchr(av, ' ') != NULL)
-	{
-		temp = ft_split(av, ' ');
-		free(cmd);
-		return (temp);
-	}
-	cmd[0] = av;
-	cmd[1] = NULL;
 	return (cmd);
 }
 

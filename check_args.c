@@ -6,7 +6,7 @@
 /*   By: ntarik <ntarik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 20:31:42 by ntarik            #+#    #+#             */
-/*   Updated: 2024/06/09 20:32:43 by ntarik           ###   ########.fr       */
+/*   Updated: 2024/06/09 23:42:14 by ntarik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,24 @@
 
 int	check_args(int ac, char **av)
 {
+	char	**fcmd;
+	char	**scmd;
+
 	if (ac != 5)
 	{
 		write(2, "Error: Wrong number of arguments\n", 33);
-		exit(1);
+		return (-1);
 	}
-	else
+	fcmd = is_cmd_composed(av[2]);
+	scmd = is_cmd_composed(av[3]);
+	if (fcmd[0] == NULL || scmd[0] == NULL)
 	{
-		if (av[0] == NULL || av[1] == NULL || av[2] == NULL
-			|| av[3] == NULL || av[4] == NULL)
-		{
-			write(2, "Error: Wrong arguments\n", 24);
-			return (-1);
-		}
+		write(2, "Error: Memory allocation failed\n", 33);
+		free2d(fcmd);
+		free2d(scmd);
+		return (-1);
 	}
-	return (1);
+	free2d(fcmd);
+	free2d(scmd);
+	return (0);
 }

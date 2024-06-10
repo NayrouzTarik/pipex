@@ -6,7 +6,7 @@
 /*   By: ntarik <ntarik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 15:41:45 by ntarik            #+#    #+#             */
-/*   Updated: 2024/06/04 19:42:35 by ntarik           ###   ########.fr       */
+/*   Updated: 2024/06/10 21:02:39 by ntarik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,44 +26,28 @@ char	**find_path(char **env)
 	return (NULL);
 }
 
-int	check_my_in_files(char **av)
+void	check_my_in_files(char **av, int *infile)
 {
-	int	fd_in;
-
-	fd_in = open(av[1], O_RDONLY);
-	if (access(av[1], F_OK) != -1)
-	{
-		if (access(av[1], R_OK) != -1)
-		{
-			if (access(av[1], X_OK) != -1)
-				fd_in = open(av[1], O_RDONLY);
-			else
-				ft_error("\033[1;31mPermission denied \n");
-		}
-		else
-			ft_error("\033[1;31mPermission denied \n");
-	}
-	else
-		no_file_dire("No such file or directory ");
-	return (fd_in);
+	*infile = open(av[1], O_RDONLY);
+	if ((*infile) < 0)
+		ft_error("");
+	// if (access(av[1], F_OK) == -1)
+	// 	no_file_dire("No such file or directory ");
+	// if (access(av[1], R_OK) == -1)
+	// 	ft_error("\033[1;31mPermission denied \n");
+	if (dup2(*infile, 0) < 0)
+		ft_error("");
 }
 
-int	check_my_out_files(int ac, char **av)
+void	check_my_out_files(int ac, char **av, int *outfile)
 {
-	int	fd_out ;
-
-	fd_out = open(av[ac - 1], O_RDWR | O_CREAT | O_TRUNC, 0644);
-	if (access(av[ac - 1], F_OK) != -1)
-	{
-		if (access(av[ac - 1], R_OK) != -1)
-		{
-			if (access(av[ac - 1], X_OK) != -1)
-				permission_error("\033[1;31mPermission denied \n");
-		}
-		else
-			permission_error("\033[1;31mPermission denied \n");
-	}
-	else
-		no_file_dire("No such file or directory ");
-	return (fd_out);
+	*outfile = open(av[ac - 1], O_RDWR | O_CREAT | O_TRUNC, 0644);
+	if ((*outfile) < 0)
+		ft_error("");
+	// if (access(av[ac - 1], F_OK) != -1)
+	// 	no_file_dire("No such file or directory ");
+	// if (access(av[ac - 1], R_OK | W_OK) == -1)
+	// 	permission_error("\033[1;31mPermission denied \n");
+	if (dup2(*outfile, 1) < 0)
+		ft_error("");
 }
