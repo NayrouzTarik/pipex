@@ -6,7 +6,7 @@
 /*   By: ntarik <ntarik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 10:55:14 by ntarik            #+#    #+#             */
-/*   Updated: 2024/06/10 19:53:12 by ntarik           ###   ########.fr       */
+/*   Updated: 2024/06/11 14:52:23 by ntarik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	permission_error(char *str)
 
 void	no_file_dire(char *str)
 {
-	ft_error(str);
+	write(2, str, ft_strlen(str));
 	exit(2);
 }
 

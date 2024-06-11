@@ -6,7 +6,7 @@
 /*   By: ntarik <ntarik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 18:06:59 by ntarik            #+#    #+#             */
-/*   Updated: 2024/06/03 10:50:27 by ntarik           ###   ########.fr       */
+/*   Updated: 2024/06/11 22:39:20 by ntarik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,4 +76,16 @@ void	*ft_calloc(size_t count, size_t size)
 void	ft_bzero( void *dst, size_t n)
 {
 	ft_memset(dst, 0, n);
+}
+
+int	ft_strncmp( const char *p1, const char *p2, size_t n)
+{
+	if (n == 0)
+		return (0);
+	while (*p1 && *p2 && (*p1 == *p2) && --n)
+	{
+		p1++;
+		p2++;
+	}
+	return ((unsigned char)(*p1) - (unsigned char)(*p2));
 }

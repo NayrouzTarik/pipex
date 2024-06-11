@@ -6,7 +6,7 @@
 /*   By: ntarik <ntarik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 15:30:06 by ntarik            #+#    #+#             */
-/*   Updated: 2024/06/09 23:40:34 by ntarik           ###   ########.fr       */
+/*   Updated: 2024/06/11 22:47:52 by ntarik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	free2d(char **str)
 int	pipe_it(int *fd)
 {
 	if (pipe(fd) == -1)
-		ft_error("Pipe failed\n");
+		ft_error("Pipe() has failed\n");
 	return (*fd);
 }
 
