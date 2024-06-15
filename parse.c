@@ -6,11 +6,12 @@
 /*   By: ntarik <ntarik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 15:41:45 by ntarik            #+#    #+#             */
-/*   Updated: 2024/06/11 22:48:53 by ntarik           ###   ########.fr       */
+/*   Updated: 2024/06/14 23:55:41 by ntarik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
+#include <stdio.h>
 
 char	**find_path(char **env)
 {

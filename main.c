@@ -6,7 +6,7 @@
 /*   By: ntarik <ntarik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 10:53:59 by ntarik            #+#    #+#             */
-/*   Updated: 2024/06/11 22:48:29 by ntarik           ###   ########.fr       */
+/*   Updated: 2024/06/14 23:28:35 by ntarik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	child_process(int *fd, char **av, char **env)
 	execve(is_executable(av[2], env, path), is_cmd_composed(av[2]), env);
 }
 
-void	parent_process(int *fd, char **av, char **env)
+void	second_child(int *fd, char **av, char **env)
 {
 	char	**path;
 
@@ -36,11 +36,25 @@ void	parent_process(int *fd, char **av, char **env)
 	execve(is_executable(av[3], env, path), is_cmd_composed(av[3]), env);
 }
 
+void	parent_process(int *fd, int status, pid_t pid, pid_t pid2)
+{
+	close(fd[0]);
+	close(fd[1]);
+	waitpid(pid, &status, 0);
+	waitpid(pid2, &status, 0);
+}
+
+void	my_fork(pid_t *pid)
+{
+	*pid = fork();
+	if (*pid == -1)
+		ft_error("Fork failed\n");
+}
+
 int	main(int ac, char **av, char **env)
 {
 	int		fd[2];
-	pid_t	pid;
-	int		status;
+	t_pipex	pipex;
 
 	if (check_args(ac, av) == -1)
 		return (1);
@@ -50,12 +64,17 @@ int	main(int ac, char **av, char **env)
 		check_my_out_files(ac, av);
 		if (pipe(fd) == -1)
 			ft_error("Pipe failed\n");
-		pid = fork();
-		if (pid == 0)
+		my_fork(&pipex.pid);
+		if (pipex.pid == 0)
 			child_process(fd, av, env);
-		else if (fork() == 0)
-			parent_process(fd, av, env);
-		wait(&status);
+		else if (pipex.pid > 0)
+		{
+			my_fork(&pipex.pid2);
+			if (pipex.pid2 == 0)
+				second_child(fd, av, env);
+			else
+				parent_process(fd, pipex.status, pipex.pid, pipex.pid2);
+		}
 	}
 	return (0);
 }

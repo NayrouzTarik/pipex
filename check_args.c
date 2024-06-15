@@ -6,7 +6,7 @@
 /*   By: ntarik <ntarik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 20:31:42 by ntarik            #+#    #+#             */
-/*   Updated: 2024/06/11 15:04:03 by ntarik           ###   ########.fr       */
+/*   Updated: 2024/06/14 21:10:04 by ntarik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	check_args(int ac, char **av)
 	scmd = is_cmd_composed(av[3]);
 	if (fcmd[0] == NULL || scmd[0] == NULL)
 	{
-		write(2, "Error: Memory allocation failed\n", 33);
+		write(2, "Error : cant parse an empty argument in the commands\n", 53);
 		free2d(fcmd);
 		free2d(scmd);
 		return (-1);
